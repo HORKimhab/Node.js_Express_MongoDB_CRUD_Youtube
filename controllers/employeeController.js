@@ -30,16 +30,41 @@ function insertRecord(req, res) {
         if (!err) {
             res.redirect('employee/list'); 
         } else {
-            log('Error during record inserting : ' + err); 
+            if (err.name == 'ValidationError') {
+                handleValidationError(err, req.body); 
+                res.render('employee/addOrEdit', {
+                    viewTitle: "Insert Employee", 
+                    employee: req.body,
+                });  
+            }
+            else {
+                log('Error during record inserting : ' + err); 
+            }
+            // log('Error during record inserting : ' + err); 
         }
     }); 
 }
 
-router.get('/list', (req, res) => {
-    res.json('from list');
-    // res.render('employee/addOrEdit', {
-    //     viewTitle: "Insert Employee"
-    // }); 
-}); 
+// router.get('/list', (req, res) => {
+//     res.json('from list');
+//     res.render('employee/addOrEdit', {
+//         viewTitle: "Insert Employee"
+//     }); 
+// }); 
+
+function handleValidationError(err, body) {
+    for (var field in err.errors) {
+        switch (err.errors[field].path){
+            case 'fullName':
+                body['fullNameError'] = err.errors[field].message;
+                break; 
+            case 'email':
+                body['emailError'] = err.errors[field].message;
+                break; 
+            default:
+                break; 
+        }
+    }
+}
 
 module.exports = router; 

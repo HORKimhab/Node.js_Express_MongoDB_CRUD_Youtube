@@ -1,4 +1,3 @@
-const { Mongoose } = require("mongoose");
 const mongoose = require('mongoose'); 
 
 let employeeSchema = new mongoose.Schema({

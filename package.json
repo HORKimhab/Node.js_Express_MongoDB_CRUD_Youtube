@@ -4,8 +4,8 @@
     "description": "node.js_express_mongodb_crud_youtube",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "nodemon server.js"
+        "dev": "nodemon server.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
         "type": "git",
@@ -22,5 +22,8 @@
         "express": "^4.17.1",
         "express-handlebars": "^5.2.0",
         "mongoose": "^5.11.9"
+    },
+    "devDependencies": {
+        "ws": "7.4.2"
     }
 }

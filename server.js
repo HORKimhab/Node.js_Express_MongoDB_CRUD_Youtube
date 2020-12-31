@@ -3,9 +3,16 @@ const express = require('express'),
     log = console.log,
     employeeController = require('./controllers/employeeController'),
     path = require('path'),
-    exphbs = require('express-handlebars'); 
+    exphbs = require('express-handlebars'),
+    bodyparser = require('body-parser'); 
+
 let app = express(),
     PORT = 3000; 
+app.use(bodyparser.urlencoded({
+    extended: true
+})); 
+
+app.use(bodyparser.json()); 
 
 app.set('views', path.join(__dirname, '/views/'));  
 

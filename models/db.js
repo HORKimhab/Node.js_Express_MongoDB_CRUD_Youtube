@@ -9,3 +9,5 @@ mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true }, (err)
         log('Erro with connection MongoDB: ' + err); 
     }
 });
+
+require('./employee.model'); 

@@ -45,12 +45,19 @@ function insertRecord(req, res) {
     }); 
 }
 
-// router.get('/list', (req, res) => {
-//     res.json('from list');
-//     res.render('employee/addOrEdit', {
-//         viewTitle: "Insert Employee"
-//     }); 
-// }); 
+router.get('/list', (req, res) => {
+    // res.json('from list');
+    Employee.find((err, docs) => {
+        if (!err) {
+            res.render('employee/list', {
+                list: docs
+            });
+        }
+        else {
+            log('Error in retirieving employee list: ' + err); 
+        }
+    }); 
+}); 
 
 function handleValidationError(err, body) {
     for (var field in err.errors) {

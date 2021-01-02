@@ -16,7 +16,12 @@ router.get('/', (req, res) => {
 // method post 
 router.post('/', (req, res) => {
     // res.json('Pass');
-    insertRecord(req, res);
+    if (req.body._id == '') {
+        insertRecord(req, res);
+    } 
+    else {
+        updateRecord(req, res); 
+    }
     
 });
 
@@ -41,6 +46,27 @@ function insertRecord(req, res) {
                 log('Error during record inserting : ' + err); 
             }
             // log('Error during record inserting : ' + err); 
+        }
+    }); 
+}
+
+// Function Update Record | Update Employee 
+function updateRecord(req, res) {
+    Employee.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true }, (err, doc) => {
+        if (!err) {
+            res.redirect('employee/list'); 
+        }
+        else {
+            if (err.name == 'ValidationError') {
+                handleValidationError(err, req.body); 
+                res.render('employee/addOrEdit', {
+                    viewTitle: 'Update Employee',
+                    employee: req.body,
+                }); 
+            }
+            else {
+                log('Erro during record update: ' + err);   
+            }
         }
     }); 
 }
@@ -73,5 +99,29 @@ function handleValidationError(err, body) {
         }
     }
 }
+
+// get id of employee 
+router.get('/:id', (req, res) => {
+    Employee.findById(req.params.id, (err, doc) => {
+        if (!err) {
+            res.render('employee/addOrEdit', {
+                viewTitle: "Update Employee",
+                employee: doc,
+            });
+        }
+    }); 
+}); 
+
+// remove | delete employee by id 
+router.get('/delete/:id', (req, res) => {
+    Employee.findByIdAndRemove(req.params.id, (err, doc) => {
+        if (!err) {
+            res.redirect('/employee/list');     
+        }
+        else {
+            log('Error in employee delete :' + err); 
+        }
+    }); 
+}); 
 
 module.exports = router; 

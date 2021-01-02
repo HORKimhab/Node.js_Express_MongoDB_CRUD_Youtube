@@ -16,7 +16,7 @@ let employeeSchema = new mongoose.Schema({
     city: {
         type: String
     }, 
-}); 
+}, { collection: 'employees' }); 
 
 // Out put employeeSchema
 // log(employeeSchema); 
